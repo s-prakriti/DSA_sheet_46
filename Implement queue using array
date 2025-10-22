@@ -1,0 +1,40 @@
+class myQueue:
+    def __init__(self, n):
+        self.size = n
+        self.queue = [0] * n
+        self.front = -1
+        self.rear = -1
+
+    def isEmpty(self):
+        return self.front == -1
+
+    def isFull(self):
+        return (self.rear + 1) % self.size == self.front
+
+    def enqueue(self, x):
+        if self.isFull():
+            return  # Can't insert, queue is full
+        if self.isEmpty():
+            self.front = self.rear = 0
+        else:
+            self.rear = (self.rear + 1) % self.size
+        self.queue[self.rear] = x
+
+    def dequeue(self):
+        if self.isEmpty():
+            return  # Nothing to dequeue
+        if self.front == self.rear:
+            # Only one element in queue
+            self.front = self.rear = -1
+        else:
+            self.front = (self.front + 1) % self.size
+
+    def getFront(self):
+        if self.isEmpty():
+            return -1
+        return self.queue[self.front]
+
+    def getRear(self):
+        if self.isEmpty():
+            return -1
+        return self.queue[self.rear]
