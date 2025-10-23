@@ -1,0 +1,22 @@
+class Solution(object):
+    def nextGreaterElement(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: List[int]
+        """
+        stack = []
+        next_greater = {}
+
+        for num in nums2:
+            while stack and num > stack[-1]:
+                prev_num = stack.pop()
+                next_greater[prev_num] = num
+            stack.append(num)
+
+        # For remaining elements in stack, no next greater element
+        while stack:
+            next_greater[stack.pop()] = -1
+
+        # Build result for nums1 based on map
+        return [next_greater[num] for num in nums1]
