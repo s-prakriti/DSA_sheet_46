@@ -1,0 +1,20 @@
+class Solution:
+    def preToInfix(self, pre_exp):
+        stack = []
+        operators = set(['+', '-', '*', '/', '%', '^'])
+
+        # Traverse from right to left
+        for ch in pre_exp[::-1]:
+            if ch.isalpha():
+                # Operand: push to stack
+                stack.append(ch)
+            elif ch in operators:
+                # Operator: pop two operands
+                op1 = stack.pop()
+                op2 = stack.pop()
+                # Form infix string with parentheses
+                new_expr = '(' + op1 + ch + op2 + ')'
+                stack.append(new_expr)
+        
+        # The final element of stack is the full infix expression
+        return stack[-1]
