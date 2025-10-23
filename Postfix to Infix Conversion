@@ -1,0 +1,19 @@
+class Solution:
+    def postToInfix(self, postfix):
+        stack = []
+        operators = set(['+', '-', '*', '/', '%', '^'])
+        
+        for ch in postfix:
+            if ch.isalpha():
+                # Operand: push to stack
+                stack.append(ch)
+            elif ch in operators:
+                # Operator: pop two operands
+                op2 = stack.pop()
+                op1 = stack.pop()
+                # Form infix string with parentheses
+                new_expr = "(" + op1 + ch + op2 + ")"
+                stack.append(new_expr)
+        
+        # Final element of stack is the fully parenthesized infix expression
+        return stack[-1]
