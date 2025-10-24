@@ -1,0 +1,38 @@
+class MyQueue(object):
+
+    def __init__(self):
+        self.stack_in = []   # for push operations
+        self.stack_out = []  # for pop/peek operations
+
+    def push(self, x):
+        """
+        :type x: int
+        :rtype: None
+        """
+        self.stack_in.append(x)
+
+    def pop(self):
+        """
+        :rtype: int
+        """
+        # If stack_out is empty, transfer all elements from stack_in
+        if not self.stack_out:
+            while self.stack_in:
+                self.stack_out.append(self.stack_in.pop())
+        return self.stack_out.pop()
+
+    def peek(self):
+        """
+        :rtype: int
+        """
+        # Ensure stack_out has the front element on top
+        if not self.stack_out:
+            while self.stack_in:
+                self.stack_out.append(self.stack_in.pop())
+        return self.stack_out[-1]
+
+    def empty(self):
+        """
+        :rtype: bool
+        """
+        return not self.stack_in and not self.stack_out
