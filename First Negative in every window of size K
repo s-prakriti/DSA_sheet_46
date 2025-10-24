@@ -1,0 +1,26 @@
+from collections import deque
+
+class Solution:
+    def firstNegInt(self, arr, k):
+        n = len(arr)
+        q = deque()  # will store indices of negative numbers
+        result = []
+
+        for i in range(n):
+            # If current element is negative, add its index to queue
+            if arr[i] < 0:
+                q.append(i)
+
+            # Remove elements that are out of this window
+            while q and q[0] <= i - k:
+                q.popleft()
+
+            # Once we've hit the first complete window
+            if i >= k - 1:
+                # If there’s a negative number in the window
+                if q:
+                    result.append(arr[q[0]])
+                else:
+                    result.append(0)
+
+        return result
