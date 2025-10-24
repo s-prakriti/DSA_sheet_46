@@ -1,0 +1,24 @@
+from collections import deque
+
+class Solution:
+    def reverseFirstK(self, q, k):
+        # If k is more than queue size, return original queue
+        if k > len(q):
+            return q
+        
+        stack = []
+        
+        # Step 1: Push first k elements into stack (to reverse them)
+        for _ in range(k):
+            stack.append(q.popleft())
+        
+        # Step 2: Enqueue back the stack elements (reversed part)
+        while stack:
+            q.append(stack.pop())
+        
+        # Step 3: Move the remaining (n-k) elements to the back to restore order
+        size = len(q)
+        for _ in range(size - k):
+            q.append(q.popleft())
+        
+        return q
