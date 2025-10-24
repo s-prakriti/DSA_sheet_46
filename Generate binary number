@@ -1,0 +1,20 @@
+from collections import deque
+
+class Solution:
+    def generateBinary(self, n):
+        result = []
+        q = deque()
+        
+        # Start with first binary number "1"
+        q.append("1")
+        
+        for _ in range(n):
+            # Get the front of the queue
+            curr = q.popleft()
+            result.append(curr)
+            
+            # Generate next two binary numbers
+            q.append(curr + "0")
+            q.append(curr + "1")
+        
+        return result
