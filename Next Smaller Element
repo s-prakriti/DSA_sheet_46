@@ -1,0 +1,19 @@
+class Solution:
+    def nextSmallerEle(self, arr):
+        n = len(arr)
+        result = [-1] * n  # Initialize all elements to -1
+        stack = []  # Stack to keep track of elements
+        
+        for i in range(n-1, -1, -1):  # Traverse from right to left
+            # Pop elements from stack that are >= current element
+            while stack and stack[-1] >= arr[i]:
+                stack.pop()
+            
+            # If stack is not empty, top element is the NSE
+            if stack:
+                result[i] = stack[-1]
+            
+            # Push current element onto stack
+            stack.append(arr[i])
+        
+        return result
