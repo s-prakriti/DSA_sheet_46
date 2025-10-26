@@ -1,0 +1,35 @@
+import heapq
+from collections import defaultdict
+
+class Twitter:
+
+    def __init__(self):
+        self.timestamp = 0                           # global timestamp
+        self.tweets = defaultdict(list)               # userId -> list of (timestamp, tweetId)
+        self.following = defaultdict(set)             # userId -> set of followeeIds
+
+    def postTweet(self, userId, tweetId):
+        self.timestamp += 1
+        self.tweets[userId].append((self.timestamp, tweetId))
+
+    def getNewsFeed(self, userId):
+        heap = []
+        users = set(self.following[userId])
+        users.add(userId)  # include user's own tweets
+
+        for uid in users:
+            for t in self.tweets[uid][-10:]:  # only last 10 tweets per user
+                heapq.heappush(heap, t)
+                if len(heap) > 50:  # optimization: limit heap size
+                    heapq.heappop(heap)
+
+        latest = heapq.nlargest(10, heap)
+        latest.sort(reverse=True)
+        return [tweetId for _, tweetId in latest]
+
+    def follow(self, followerId, followeeId):
+        if followerId != followeeId:  # cannot follow self
+            self.following[followerId].add(followeeId)
+
+    def unfollow(self, followerId, followeeId):
+        self.following[followerId].discard(followeeId)
